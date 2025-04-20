@@ -1,699 +1,643 @@
-<!DOCTYPE HTML> <!--주석, 문서유형 선언문-->
+<!DOCTYPE HTML>
+<!--주석, 문서유형 선언문-->
+
+<html lang="ko">
+    <head><meta charset="utf-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>백석대학교 360 [20 박철욱]</title>
+
+        <link rel="stylesheet" href="http://vautu.com/src/LimVRViewer.css">
+
+        <script type="text/javascript" src="http://vautu.com/src/LimVRViewer.js"></script>
+
+
+        <!--모바일경로로 연결하기-->
+
+        <script type="text/javascript">
+            var mobileKeyWords = new Array('iPhone', 'iPod', 'BlackBerry', 'Android', 'Windows CE', 'LG', 'MOT', 'SAMSUNG', 'SonyEricsson');
+            for (var word in mobileKeyWords) {
+                if (navigator.userAgent.match(mobileKeyWords[word]) != null) {
+                    location.href = "mobile.html";
+                    break;
+                }
+            }
+        </script>
+
+
+        <!--파노라마뷰어 선언-->
+
+        <style>
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+            }
+            #panorama {
+                width: 100%;
+                height: 100%;
+            }
+            .custom-hotspot {
+                height: 20px;
+                width: 1px;
+                background: #ffffffaa;
+            } /*핫스팟크기, 컬러*/
+
+            div.custom-tooltip span {
+                visibility: visible;
+                position: absolute;
+                border-radius: 20px;
+                background-color: #ffffffaa;
+                color: #000000;
+                text- align: center;
+                max-width: 200px;
+                padding: 0 10px;
+                margin-left: -220 px;
+                cursor: default;
+            } /* 말풍선 */ // div.custom-tooltip:hover span{visibility:visible;}
+
+            div.custom-tooltip:hover span:after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 0;
+                border-width: 10px;
+                border-style: solid;
+                border-color: #ffffffaa transparent transparent transparent;
+                bottom: -20px;
+                left: -10px;
+                margin: 0 50%;
+            } /* 화살표 */
 
-<html lang="ko"><head><meta charset="utf-8"> 
+
+            /* 파노라마 하단툴바 선언 */
+
+            #controls {
+                position: absolute;
+                bottom: 0;
+                z-index: 2;
+                text-align: center;
+                width: 100%;
+                padding-bottom: 3px;
+            }
+            .ctrl {
+                padding: 8px 5px;
+                width: 30px;
+                text-align: center;
+                background: rgba(200, 200, 200, 0.8);
+                display: inline-block;
+                cursor: pointer;
+            }
+            .ctrl:hover {
+                background: rgba(200, 200, 200, 1);
+            }
+
+
+            /* 바디시작 마우스오른사용금지 파노라마뷰어 사용 */
+        </style>
+    </head>
+    <body oncontextmenu='return false' ondragstart='return false' onselectstart='return false'>
+        <div
+            id="panorama" style="width:100%;height:70%;">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>문서제목;;소제목</title>
+            <!--하단툴바 사용 시-->
 
-<link rel="stylesheet" href="http://vautu.com/src/LimVRViewer.css">
+            <div id="controls">
 
-<script type="text/javascript" src="http://vautu.com/src/LimVRViewer.js"></script>
+                <div class="ctrl" id="pan-up">&#9650;</div>
 
+                <div class="ctrl" id="pan-down">&#9660;
+                </div>
 
+                <div class="ctrl" id="pan-left">&#9664;</div>
+                <div class="ctrl" id="pan-right">&#9654;</div>
+                <div class="ctrl" id="zoom-in">&plus;</div>
+                <div class="ctrl" id="zoom-out">&minus;</div>
+                <div class="ctrl" id="fullscreen">&#x2922;</div>
+            </div>
 
 
+        </div>
+        <script>
 
-<!--모바일경로로 연결하기-->
 
-<script type="text/javascript">var mobileKeyWords=new Array('iPhone', 'iPod','BlackBerry','Android','Windows CE','LG','MOT','SAMSUNG','SonyEricsson');for(var word in mobileKeyWords) {if(navigator.userAgent.match(mobileKeyWords[word])!=null){location.href=
+            viewer =
+            /*하단툴바 사용 시*/
 
-"mobile.html"; break; }}</script>
 
+            /* 7파노라마뷰어 저자 */
 
+            pannellum.viewer('panorama', {
+                "default": {
+                    "firstScene": "labora",
+                    "author": "저자",
+                    "sceneFadeDuration": 1000,
+                    "autoLoad": true,
+                    "showControls": false
+                },
+                "scenes": { /* 씬1_hfov:시야, pitch:높이, yaw:시작각도, compass:나침반, northOffset:북쪽 */
 
+                    "labora": {
+                        "title": "공간제목",
+                        "hfov": 120,
+                        "pitch": 0,
+                        "yaw": 180,
+                        "compass": false,
+                        "northOffset": 0,
 
+                        "type": "cubemap",
+                        "cubeMap": [
 
-<!--파노라마뷰어 선언-->
+                            "./src/map1_1.jpg",
 
-<style>html,body{margin:0;padding:0;height:100%;} #panorama{width:100%;height:100%;} .custom-hotspot{height:20px; width:1px;background:#ffffffaa;} /*핫스팟크기, 컬러*/
+                            "./src/map1_2.jpg",
 
-div.custom-tooltip span{visibility:visible;position:absolute; border-radius:20px; background-color:#ffffffaa; color:#000000; text- align:center; max-width:200px;padding:0px 10px;margin-left:-220 px;cursor:default;}/* 말풍선 */ //div.custom-tooltip:hover span{visibility:visible;}
+                            "./src/map1_3.jpg",
+
+                            "./src/map1_4.jpg",
 
-div.custom-tooltip:hover span:after{content:'';position:absolute;width:0;height:0; border-width:10px; border-style:solid;border-color:#ffffffaa transparent transparent transparent;  bottom:-20px;left:-10px;margin:0 50%;} /* 화살표 */
+                            "./src/map1_5.jpg",
+
+                            "./src/map1_6.jpg"
+                        ],
+
+                        "autoRotate": -4,
+
+                        "hotSpots": [
+
+
+                            {
+                                /*pitch-높이, yaw-각도 */
+                                "pitch": 0,
+                                "yaw": 0,
+
+                                "cssClass": "custom-hotspot",
+                                "createTooltipFunc": hotspot,
+                                "createTooltipArgs": "0"
+                            },
+
+                            {
+                                "pitch": 0,
+                                "yaw": 30,
+
+                                "cssClass": "custom-hotspot",
+                                "createTooltipFunc": hotspot,
+                                "createTooltipArgs": "30"
+                            },
+
+                            {
+                                "pitch": 0,
+                                "yaw": 60,
+
+                                "cssClass": "custom-hotspot",
+                                "createTooltipFunc": hotspot,
+                                "createTooltipArgs": "60"
+                            },
+
+                            {
+                                "pitch": 0,
+                                "yaw": 90,
+
+                                "cssClass": "custom-hotspot",
+                                "createTooltipFunc": hotspot,
+                                "createTooltipArgs": "90"
+                            }, {
+                                "pitch": 0,
+                                "yaw": 120,
+
+                                "cssClass": "custom-hotspot",
+                                "createTooltipFunc": hotspot,
+                                "createTooltipArgs": "120"
+                            }, {
+                                "pitch": 0,
+                                "yaw": 150,
 
+                                "cssClass": "custom-hotspot",
+                                "createTooltipFunc": hotspot,
+                                "createTooltipArgs": "150"
+                            }, {
+                                "pitch": 0,
+                                "yaw": 180,
 
+                                "cssClass": "custom-hotspot",
+                                "createTooltipFunc": hotspot,
+                                "createTooltipArgs": "180"
+                            }, {
+                                "pitch": 0,
+                                "yaw": 210,
 
-/* 파노라마 하단툴바 선언 */
+                                "cssClass": "custom-hotspot",
+                                "createTooltipFunc": hotspot,
+                                "createTooltipArgs": "210"
+                            }, {
+                                "pitch": 0,
+                                "yaw": 240,
 
-#controls{position: absolute;bottom: 0;z-index: 2;text-align: center;width: 100%;padding-bottom: 3px;} .ctrl{padding: 8px 5px;width: 30px;text-align: center;background: rgba(200, 200, 200, 0.8);display: inline-block;cursor: pointer;} .ctrl:hover{background: rgba(200, 200, 200, 1); }
+                                "cssClass": "custom-hotspot",
+                                "createTooltipFunc": hotspot,
+                                "createTooltipArgs": "240"
+                            }, {
+                                "pitch": 0,
+                                "yaw": 270,
 
+                                "cssClass": "custom-hotspot",
+                                "createTooltipFunc": hotspot,
+                                "createTooltipArgs": "270"
+                            }, {
+                                "pitch": 0,
+                                "yaw": 300,
 
+                                "type": "info",
+                                "text": "300<BR>vautu.com<BR><BR>.",
+                                "URL": "http://vautu.com/u1"
+                            }, {
+                                "pitch": 2,
+                                "yaw": 300,
 
-/* 바디시작 마우스오른사용금지 파노라마뷰어 사용 */
+                                "cssClass": "custom-hotspot",
+                                "createTooltipFunc": hotspot,
+                                "createTooltipArgs": "300",
+                                "URL": "http://vautu.com/u1"
+                            }, {
+                                "pitch": 0,
+                                "yaw": 330,
+
+                                "type": "scene",
+                                "text": "330<BR>since~<BR><BR>.",
+                                "sceneId": "gallery",
+                                "targetYaw": 0,
+                                "targetPitch": 0
+                            }, {
+                                "pitch": 2,
+                                "yaw": 330,
+
+                                "cssClass": "custom-hotspot",
+                                "createTooltipFunc": hotspot,
+                                "createTooltipArgs": "330",
+                                "sceneId": "gallery",
+                                "targetYaw": 0,
+                                "targetPitch": 0
+                            }
+
+
+                        ]
+                    },
+
+
+                    "gallery": {
+                        "title": "공간제목",
+                        "hfov": 120,
+                        "pitch": 0,
+                        "yaw": 180,
+                        "compass": false,
+                        "northOffset": 0,
+
+                        "type": "cubemap",
+                        "cubeMap": [
+
+                            "http://vautu.com/img/3DHall0001.jpg",
+
+                            "http://vautu.com/img/3DHall0002.jpg",
+
+                            "http://vautu.com/img/3DHall0003.jpg",
+
+                            "http://vautu.com/img/3DHall0004.jpg",
+
+                            "http://vautu.com/img/3DHall0005.jpg",
+
+                            "http://vautu.com/img/3DHall0006.jpg"
+                        ],
+
+                        "autoRotate": -4,
+
+                        "hotSpots": [
+
+
+                            {
+                                /*pitch-높이, yaw-각도 */
+                                "pitch": 0,
+                                "yaw": 0,
+
+                                "cssClass": "custom-hotspot",
+                                "createTooltipFunc": hotspot,
+                                "createTooltipArgs": "0"
+                            },
+
+                            {
+                                "pitch": 0,
+                                "yaw": 30,
+
+                                "cssClass": "custom-hotspot",
+                                "createTooltipFunc": hotspot,
+                                "createTooltipArgs": "30"
+                            },
+
+                            {
+                                "pitch": 0,
+                                "yaw": 60,
+
+                                "cssClass": "custom-hotspot",
+                                "createTooltipFunc": hotspot,
+                                "createTooltipArgs": "60"
+                            },
+
+                            {
+                                "pitch": 0,
+                                "yaw": 90,
+
+                                "cssClass": "custom-hotspot",
+                                "createTooltipFunc": hotspot,
+                                "createTooltipArgs": "90"
+                            }, {
+                                "pitch": 0,
+                                "yaw": 120,
+
+                                "cssClass": "custom-hotspot",
+                                "createTooltipFunc": hotspot,
+                                "createTooltipArgs": "120"
+                            }, {
+                                "pitch": 0,
+                                "yaw": 150,
+
+                                "cssClass": "custom-hotspot",
+                                "createTooltipFunc": hotspot,
+                                "createTooltipArgs": "150"
+                            }, {
+                                "pitch": 0,
+                                "yaw": 180,
+
+                                "cssClass": "custom-hotspot",
+                                "createTooltipFunc": hotspot,
+                                "createTooltipArgs": "180"
+                            }, {
+                                "pitch": 0,
+                                "yaw": 210,
+
+                                "cssClass": "custom-hotspot",
+                                "createTooltipFunc": hotspot,
+                                "createTooltipArgs": "210"
+                            }, {
+                                "pitch": 0,
+                                "yaw": 240,
+
+                                "cssClass": "custom-hotspot",
+                                "createTooltipFunc": hotspot,
+                                "createTooltipArgs": "240"
+                            }, {
+                                "pitch": 0,
+                                "yaw": 270,
+
+                                "cssClass": "custom-hotspot",
+                                "createTooltipFunc": hotspot,
+                                "createTooltipArgs": "270"
+                            }, {
+                                "pitch": 0,
+                                "yaw": 300,
+
+                                "type": "info",
+                                "text": "300<BR>vautu.com<BR><BR>.",
+                                "URL": "http://vautu.com/u1"
+                            }, {
+                                "pitch": 2,
+                                "yaw": 300,
+
+                                "cssClass": "custom-hotspot",
+                                "createTooltipFunc": hotspot,
+                                "createTooltipArgs": "300",
+                                "URL": "http://vautu.com/u1"
+                            }, {
+                                "pitch": 0,
+                                "yaw": 330,
+
+                                "type": "scene",
+                                "text": "330<BR>since~<BR><BR>.",
+                                "sceneId": "labora",
+                                "targetYaw": 0,
+                                "targetPitch": 0
+                            }, {
+                                "pitch": 2,
+                                "yaw": 330,
 
-</style></head><body oncontextmenu='return false' ondragstart='return false' onselectstart='return false'><div id="panorama" style="width:100%;height:70%;">
+                                "cssClass": "custom-hotspot",
+                                "createTooltipFunc": hotspot,
+                                "createTooltipArgs": "330",
+                                "sceneId": "labora",
+                                "targetYaw": 0,
+                                "targetPitch": 0
+                            }
 
 
+                        ]
+                    }
 
 
+                }
+            });
 
-<!--하단툴바 사용 시-->
 
-<div id="controls">
+            /* 하단툴바 사용시 */
 
-<div class="ctrl" id="pan-up">&#9650;</div>
+            document.getElementById('pan-up').addEventListener('click', function (e) {
+                viewer.setPitch(viewer.getPitch() + 15);
+            });
 
-<div class="ctrl" id="pan-down">&#9660; </div>
+            document.getElementById('pan-down').addEventListener('click', function (e) {
+                viewer.setPitch(viewer.getPitch() - 15);
+            });
 
-<div class="ctrl" id="pan-left">&#9664;</div> <div class="ctrl" id="pan-right">&#9654;</div> <div class="ctrl" id="zoom-in">&plus;</div> <div class="ctrl" id="zoom-out">&minus;</div> <div class="ctrl" id="fullscreen">&#x2922;</div></div>
+            document.getElementById('pan-left').addEventListener('click', function (e) {
+                viewer.setYaw(viewer.getYaw() - 15);
+            });
 
+            document.getElementById('pan-right').addEventListener('click', function (e) {
+                viewer.setYaw(viewer.getYaw() + 15);
+            });
 
+            document.getElementById('zoom-in').addEventListener('click', function (e) {
+                viewer.setHfov(viewer.getHfov() - 15);
+            });
 
-</div> <script>
+            document.getElementById('zoom-out').addEventListener('click', function (e) {
+                viewer.setHfov(viewer.getHfov() + 15);
+            });
 
+            document.getElementById('fullscreen').addEventListener('click', function (e) {
+                viewer.toggleFullscreen();
+            });
 
 
-viewer = /*하단툴바 사용 시*/
+            /* 핫스팟 제작 기능 */
 
+            function hotspot(hotSpotDiv, args) {
+                hotSpotDiv.classList.add('custom-tooltip');
 
+                var span = document.createElement('span');
+                span.innerHTML = args;
 
-/* 7파노라마뷰어 저자 */
+                hotSpotDiv.appendChild(span);
+                span.style.width = span.scrollWidth - 20 + 'px';
 
-pannellum.viewer('panorama', { "default":{"firstScene":"labora","author":
+                span.style.marginLeft = -(span.scrollWidth - hotSpotDiv.offsetWidth) / 2 + 'px';
 
-"저자"
+                span.style.marginTop = - span.scrollHeight - 0 + 'px';
+            }
+        </script>
 
-,"sceneFadeDuration":1000, "autoLoad":true,"showControls": false }, "scenes": {
 
+        <Center>
+            <TABLE>
+                <TR>
 
 
+                    <TD bgcolor="#fafbfb" width="100" style='border:solid
+                        
+                        #f3f3f3
+                        
+                        1.1pt'></TD>
 
 
-/* 씬1_hfov:시야, pitch:높이, yaw:시작각도, compass:나침반, northOffset:북쪽 */
+                    <TD bgcolor="#f5f5f5" width="100" style='border:solid
+                        
+                        #eeeeee
+                        
+                        1.1pt'></TD>
 
-"labora":{"title":"공간제목","hfov":120,"pitch":0,"yaw":180,"compass":false,"northOffset":0,
 
-"type": "cubemap", "cubeMap": [ 
+                    <TD width="100" bgcolor="#ffffff" style='border:solid #eeeeee 1.1pt'>
+                        <Center>
+                            <A href="http://vautu.com/u1"><IMG src="http://vautu.com/icon/U1VRTOUR.jpg" width="90" height="114"></A>
+                        </Center>
+                    </TD>
 
-"http://vautu.com/img/3DCenter0001.jpg",
 
-"http://vautu.com/img/3DCenter0002.jpg",
+                    <TD bgcolor="#E5E5E9" width="100" style='border:solid
+                        
+                        #DDDDDD
+                        
+                        1.1pt'></TD>
 
-"http://vautu.com/img/3DCenter0003.jpg",
 
-"http://vautu.com/img/3DCenter0004.jpg",
+                    <TD bgcolor="#f7f7f7" width="100" style='border:solid
+                        
+                        #f3f3f3
+                        
+                        1.1pt'></TD>
 
-"http://vautu.com/img/3DCenter0005.jpg",
 
-"http://vautu.com/img/3DCenter0006.jpg"],
+                </TR>
+                <TR>
 
-"autoRotate": -4,
 
-"hotSpots": [ /*pitch-높이, yaw-각도 */
+                    <font style="font-family" :맑은고딕; font-size:5; font color="#222222">
 
 
+                        <TD bgcolor="#f3f3f3" style='border:solid
+                            
+                            #eeeeee
+                            
+                            1.1pt'></TD>
 
 
+                        <TD bgcolor="#f3f3f3" style='border:solid #eeeeee 1.1pt'>
+                            <Center>
+                                <A href="http://vautu.com/u1Asan"><IMG src="http://vautu.com/icon/AsanIcon.jpg" width="100" height="85"></A><BR>
 
-{"pitch":0,"yaw":0,
+                                Asan Campus
 
-"cssClass":"custom-hotspot","createTooltipFunc":hotspot,"createTooltipArgs":
+                            </Center>
+                        </TD>
 
-"0"}
 
-,
+                        <TD bgcolor="#ffffff" style='border:solid
+                            
+                            #f3f3f3
+                            
+                            1.1pt'></TD>
 
-{"pitch":0,"yaw":30,
 
-"cssClass":"custom-hotspot","createTooltipFunc":hotspot,"createTooltipArgs":
+                        <TD bgcolor="#f3f3f3" style='border:solid #eeeeee 1.1pt'>
+                            <Center>
+                                <A href="http://vautu.com/u1y"><IMG src="http://vautu.com/icon/Yeongdongicon.jpg" width="100" height="85"></A><BR>
 
-"30"}
+                                YeongDong
 
-,
+                            </Center>
+                        </TD>
 
-{"pitch":0,"yaw":60,
 
-"cssClass":"custom-hotspot","createTooltipFunc":hotspot,"createTooltipArgs":
+                        <TD bgcolor="#f3f3f3" style='border:solid
+                            
+                            #eeeeee
+                            
+                            1.1pt'></TD>
 
-"60"}
+                    </font>
 
-,
 
-{"pitch":0,"yaw":90,
+                </TR>
 
-"cssClass":"custom-hotspot","createTooltipFunc":hotspot,"createTooltipArgs":
+                <TR>
 
-"90"}
 
-,
+                    <TD bgcolor="#f7f7f7" style='border:solid
+                        
+                        #f3f3f3
+                        
+                        1.1pt'></TD>
 
-{"pitch":0,"yaw":120,
 
-"cssClass":"custom-hotspot","createTooltipFunc":hotspot,"createTooltipArgs":
+                    <TD bgcolor="#E9E9E4" style='border:solid
+                        
+                        #DDDDDD
+                        
+                        1.1pt'></TD>
 
-"120"}
 
-,
+                    <TD bgcolor="#777777" style='border:solid #6b6b6b 1.1pt'>
+                        <Center>
+                            <A href="http://vautu.com/3dprint"><IMG src="./src/map1_2.gif" width="100" height="85"></A><BR>
 
-{"pitch":0,"yaw":150,
+                            <font style="font-family:맑은고딕;font-size:5;font" color="#DDDDDD">
 
-"cssClass":"custom-hotspot","createTooltipFunc":hotspot,"createTooltipArgs":
+                                U1 3D Center
 
-"150"}
+                            </font>
+                        </Center>
+                    </TD>
 
-,
 
-{"pitch":0,"yaw":180,
+                    <TD bgcolor="#f5f5f5" style='border:solid
+                        
+                        #eeeeee
+                        
+                        1.1pt'></TD>
 
-"cssClass":"custom-hotspot","createTooltipFunc":hotspot,"createTooltipArgs":
 
-"180"}
+                    <TD bgcolor="#fafbfb" style='border:solid
+                        
+                        #f3f3f3
+                        
+                        1.1pt'></TD>
 
-,
 
-{"pitch":0,"yaw":210,
+                </TR>
+            </TABLE>
+        </Center>
 
-"cssClass":"custom-hotspot","createTooltipFunc":hotspot,"createTooltipArgs":
 
-"210"}
+        <!--<BR><BR><BR><font style=font-family:맑은고딕;line-height:100%;color:#888888;> 
+        
+        www.VAUTU.com
+        
+        </font><BR><font style=font-family:맑은고딕;line-height:100%;color:#AAAAAA;>&nbsp
+        
+        ⓒ2020.Lim,JangHoon all rights reserved, e-mail ; baspace@naver.com
+        
+        </font> <BR><BR> -->
 
-,
 
-{"pitch":0,"yaw":240,
-
-"cssClass":"custom-hotspot","createTooltipFunc":hotspot,"createTooltipArgs":
-
-"240"}
-
-,
-
-{"pitch":0,"yaw":270,
-
-"cssClass":"custom-hotspot","createTooltipFunc":hotspot,"createTooltipArgs":
-
-"270"}
-
-,
-
-
-
-{"pitch":0,"yaw":300,
-
-"type":"info","text":
-
-"300<BR>vautu.com<BR><BR>."
-
-,"URL":
-
-"http://vautu.com/u1"}
-
-,
-
-{"pitch":2,"yaw":300,
-
-"cssClass":"custom-hotspot","createTooltipFunc":hotspot,"createTooltipArgs":
-
-"300"
-
-,"URL":
-
-"http://vautu.com/u1"}
-
-, 
-
-{"pitch":0,"yaw":330,
-
-"type":"scene","text":
-
-"330<BR>since~<BR><BR>."
-
-, "sceneId":
-
-"gallery"
-
-,"targetYaw":0,"targetPitch":0}
-
-,
-
-{"pitch":2,"yaw":330,
-
-"cssClass":"custom-hotspot","createTooltipFunc":hotspot,"createTooltipArgs":
-
-"330"
-
-, "sceneId":
-
-"gallery"
-
-,"targetYaw":0,"targetPitch":0}
-
-
-
-]}
-
-,
-
-
-
-
-
-"gallery":{"title":"공간제목","hfov":120,"pitch":0,"yaw":180,"compass":false,"northOffset":0,
-
-"type": "cubemap", "cubeMap": [ 
-
-"http://vautu.com/img/3DHall0001.jpg",
-
-"http://vautu.com/img/3DHall0002.jpg",
-
-"http://vautu.com/img/3DHall0003.jpg",
-
-"http://vautu.com/img/3DHall0004.jpg",
-
-"http://vautu.com/img/3DHall0005.jpg",
-
-"http://vautu.com/img/3DHall0006.jpg"],
-
-"autoRotate": -4,
-
-"hotSpots": [ /*pitch-높이, yaw-각도 */
-
-
-
-
-
-{"pitch":0,"yaw":0,
-
-"cssClass":"custom-hotspot","createTooltipFunc":hotspot,"createTooltipArgs":
-
-"0"}
-
-,
-
-{"pitch":0,"yaw":30,
-
-"cssClass":"custom-hotspot","createTooltipFunc":hotspot,"createTooltipArgs":
-
-"30"}
-
-,
-
-{"pitch":0,"yaw":60,
-
-"cssClass":"custom-hotspot","createTooltipFunc":hotspot,"createTooltipArgs":
-
-"60"}
-
-,
-
-{"pitch":0,"yaw":90,
-
-"cssClass":"custom-hotspot","createTooltipFunc":hotspot,"createTooltipArgs":
-
-"90"}
-
-,
-
-{"pitch":0,"yaw":120,
-
-"cssClass":"custom-hotspot","createTooltipFunc":hotspot,"createTooltipArgs":
-
-"120"}
-
-,
-
-{"pitch":0,"yaw":150,
-
-"cssClass":"custom-hotspot","createTooltipFunc":hotspot,"createTooltipArgs":
-
-"150"}
-
-,
-
-{"pitch":0,"yaw":180,
-
-"cssClass":"custom-hotspot","createTooltipFunc":hotspot,"createTooltipArgs":
-
-"180"}
-
-,
-
-{"pitch":0,"yaw":210,
-
-"cssClass":"custom-hotspot","createTooltipFunc":hotspot,"createTooltipArgs":
-
-"210"}
-
-,
-
-{"pitch":0,"yaw":240,
-
-"cssClass":"custom-hotspot","createTooltipFunc":hotspot,"createTooltipArgs":
-
-"240"}
-
-,
-
-{"pitch":0,"yaw":270,
-
-"cssClass":"custom-hotspot","createTooltipFunc":hotspot,"createTooltipArgs":
-
-"270"}
-
-,
-
-
-
-{"pitch":0,"yaw":300,
-
-"type":"info","text":
-
-"300<BR>vautu.com<BR><BR>."
-
-,"URL":
-
-"http://vautu.com/u1"}
-
-,
-
-{"pitch":2,"yaw":300,
-
-"cssClass":"custom-hotspot","createTooltipFunc":hotspot,"createTooltipArgs":
-
-"300"
-
-,"URL":
-
-"http://vautu.com/u1"}
-
-, 
-
-{"pitch":0,"yaw":330,
-
-"type":"scene","text":
-
-"330<BR>since~<BR><BR>."
-
-, "sceneId":
-
-"labora"
-
-,"targetYaw":0,"targetPitch":0}
-
-,
-
-{"pitch":2,"yaw":330,
-
-"cssClass":"custom-hotspot","createTooltipFunc":hotspot,"createTooltipArgs":
-
-"330"
-
-, "sceneId":
-
-"labora"
-
-,"targetYaw":0,"targetPitch":0}
-
-
-
-]}
-
-
-
-}});
-
-
-
-
-
-/* 하단툴바 사용시 */
-
-document.getElementById('pan-up').addEventListener('click', function(e) {viewer.setPitch(viewer.getPitch() +15);});
-
-document.getElementById('pan-down').addEventListener('click',function(e){viewer.setPitch(viewer.getPitch() -15);});
-
-document.getElementById('pan-left').addEventListener('click',function(e){viewer.setYaw(viewer.getYaw() -15);});
-
-document.getElementById('pan-right').addEventListener('click',function(e){viewer.setYaw(viewer.getYaw() +15);});
-
-document.getElementById('zoom-in').addEventListener('click',function(e){viewer.setHfov(viewer.getHfov() -15);});
-
-document.getElementById('zoom-out').addEventListener('click',function(e){viewer.setHfov(viewer.getHfov() +15);});
-
-document.getElementById('fullscreen').addEventListener('click',function(e){viewer.toggleFullscreen();});
-
-
-
-
-
-/* 핫스팟 제작 기능 */
-
-function hotspot(hotSpotDiv, args) { hotSpotDiv.classList.add('custom-tooltip');
-
-var span = document.createElement('span');  span.innerHTML = args;
-
-hotSpotDiv.appendChild(span); span.style.width =span.scrollWidth - 20 + 'px';
-
-span.style.marginLeft =-(span.scrollWidth - hotSpotDiv.offsetWidth) / 2 + 'px';
-
-span.style.marginTop = -span.scrollHeight - 0 + 'px'; }</script>
-
-
-
-
-
-
-
-<Center> <TABLE> <TR>
-
-
-
-<TD bgcolor=
-
-#fafbfb
-
-width="100"
-
-style='border:solid
-
-#f3f3f3
-
-1.1pt'></TD>
-
-
-
-<TD bgcolor=
-
-#f5f5f5
-
-width="100"
-
-style='border:solid
-
-#eeeeee
-
-1.1pt'></TD>
-
-
-
-<TD width="100" bgcolor=#ffffff style= 
-
-'border:solid #eeeeee 1.1pt'><Center><A href= 
-
-"http://vautu.com/u1"><IMG src =
-
-"http://vautu.com/icon/U1VRTOUR.jpg" 
-
-width="90" height="114"></A></Center></TD>
-
-
-
-<TD bgcolor=
-
-#E5E5E9
-
-width="100"
-
-style='border:solid
-
-#DDDDDD
-
-1.1pt'></TD>
-
-
-
-<TD bgcolor=
-
-#f7f7f7
-
-width="100"
-
-style='border:solid
-
-#f3f3f3
-
-1.1pt'></TD>
-
-
-
-
-
-</TR><TR>
-
-
-
-<font style= font-family :맑은고딕; font-size:5; font color= #222222>
-
-
-
-
-
-<TD bgcolor=
-
-#f3f3f3
-
-style='border:solid
-
-#eeeeee
-
-1.1pt'></TD>
-
-
-
-<TD bgcolor=#f3f3f3 style='border:solid #eeeeee 1.1pt'><Center><A href=   
-
-"http://vautu.com/u1Asan"><IMG src=
-
-"http://vautu.com/icon/AsanIcon.jpg"
-
-width="100" height="85"></A><BR>
-
-Asan Campus
-
-</Center></TD>
-
-
-
-<TD bgcolor=
-
-#ffffff
-
-style='border:solid
-
-#f3f3f3
-
-1.1pt'></TD>
-
-
-
-<TD bgcolor=#f3f3f3 style='border:solid #eeeeee 1.1pt'><Center><A href=   
-
-"http://vautu.com/u1y"><IMG src=
-
-"http://vautu.com/icon/Yeongdongicon.jpg"
-
-width="100" height="85"></A><BR>
-
-YeongDong
-
-</Center></TD>
-
-
-
-<TD bgcolor=
-
-#f3f3f3
-
-style='border:solid
-
-#eeeeee
-
-1.1pt'></TD>
-
-</font>
-
-
-
-
-
-</TR> 
-
-<TR>
-
-
-
-<TD bgcolor=
-
-#f7f7f7
-
-style='border:solid
-
-#f3f3f3
-
-1.1pt'></TD>
-
-
-
-<TD bgcolor=
-
-#E9E9E4
-
-style='border:solid
-
-#DDDDDD
-
-1.1pt'></TD>
-
-
-
-<TD bgcolor=#777777 style='border:solid #6b6b6b 1.1pt'><Center><A href=
-
-"http://vautu.com/3dprint"><IMG src= 
-
-"http://vautu.com/img/3DCenter0002.gif"
-
-width="100" height="85"></A><BR>
-
-<font style=font-family:맑은고딕;font-size:5;font color=#DDDDDD>
-
-U1 3D Center
-
-</font></Center></TD>
-
-
-
-<TD bgcolor=
-
-#f5f5f5
-
-style='border:solid
-
-#eeeeee
-
-1.1pt'></TD>
-
-
-
-<TD bgcolor=
-
-#fafbfb
-
-style='border:solid
-
-#f3f3f3
-
-1.1pt'></TD>
-
-
-
-</TR> </TABLE> </Center>
-
-
-
-
-
-<!--<BR><BR><BR><font style=font-family:맑은고딕;line-height:100%;color:#888888;> 
-
-www.VAUTU.com
-
-</font><BR><font style=font-family:맑은고딕;line-height:100%;color:#AAAAAA;>&nbsp
-
-ⓒ2020.Lim,JangHoon all rights reserved, e-mail ; baspace@naver.com
-
-</font> <BR><BR> -->
-
-
-
-</body> </html>
-
-
+    </body>
+</html>
